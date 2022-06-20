@@ -583,7 +583,7 @@ def welcome():
     return Response("<h1 style='color:red'>Face detection server is running!</h1>", status=200)
 
 
-@app.route('/config_database', methods=['GET'])
+@app.route('/config-database', methods=['GET'])
 def config_database():
     """
     Set the database connection
@@ -591,20 +591,20 @@ def config_database():
     data = request.get_json()
 
     if 'host' not in data:
-        return Response('"host" is missing', status=400)
+        return Response('"host" is missing.', status=400)
 
     port = 5432
     if 'port' not in data:
         port = data['port']
     
     if 'db_name' not in data:
-        return Response('"db_name" is missing', status=400)
+        return Response('"db_name" is missing.', status=400)
 
     if 'username' not in data:
-        return Response('"username" is missing', status=400)
+        return Response('"username" is missing.', status=400)
     
     if 'password' not in data:
-        return Response('"password" is missing', status=400)
+        return Response('"password" is missing.', status=400)
 
     host = data['host']
     db_name = data['db_name']
@@ -619,13 +619,13 @@ def config_database():
 
     set_db_connection()
 
-    return Response('Database configuration is done', status=200)
+    return Response('Database configuration is done.', status=200)
 
 
-@app.route('/init_database', methods=['GET'])
+@app.route('/init-database', methods=['GET'])
 def init_database():
     if db_connection is None:
-        return Response('Database is not configured yet', status=500)
+        return Response('Database is not configured yet.', status=500)
 
     cur = db_connection.cursor()
     query = f"SELECT 1 FROM information_schema.tables WHERE table_name = 'sample_face_vectors';"
