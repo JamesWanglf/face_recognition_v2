@@ -118,7 +118,7 @@ if __name__ == '__main__':
     config_database()
 
     # # Initialize Database
-    initialize_database()
+    # initialize_database()
 
     # Clear samples
     # clear_samples()
