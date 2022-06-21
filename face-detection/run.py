@@ -617,9 +617,11 @@ def config_database():
     set_env('db_username', username)
     set_env('db_password', password)
 
-    set_db_connection()
-
-    return Response('Database configuration is done.', status=200)
+    res = set_db_connection()
+    if res:
+        return Response('Database configuration is done.', status=200)
+    else:
+        return Response('Database configuration is failed.', status=500)
 
 
 @app.route('/init-database', methods=['GET'])
