@@ -1,5 +1,6 @@
 # face_recognition_v2
 ## Installation
+I recommend you to use cuda 10.2 and cudnn 8.0.x.
 1. ```conda create -n face-recognition-v2 python=3.8```
 2. ```conda activate face-recognition-v2```
 3. ```pip install --upgrade pip```
