@@ -634,24 +634,20 @@ def init_database():
             return Response('Database is not configured yet.', status=500)
 
     cur = db_connection.cursor()
-    query = f"SELECT 1 FROM information_schema.tables WHERE table_name = 'sample_face_vectors';"
-    cur.execute(query)
-    tables = cur.fetchall()
 
-    if tables is None:
-        query = "DROP TABLE IF EXISTS sample_face_vectors; \
-                CREATE TABLE sample_face_vectors ( \
-                    id SERIAL PRIMARY KEY, \
-                    created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, \
-                    modified TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, \
-                    sample_id TEXT NOT NULL, \
-                    name TEXT NOT NULL, \
-                    metadata TEXT, \
-                    action TEXT, \
-                    vector TEXT NOT NULL \
-                );"
-        cur.execute(query)
-        db_connection.commit()
+    query = "DROP TABLE IF EXISTS sample_face_vectors; \
+            CREATE TABLE sample_face_vectors ( \
+                id SERIAL PRIMARY KEY, \
+                created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, \
+                modified TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, \
+                sample_id TEXT NOT NULL, \
+                name TEXT NOT NULL, \
+                metadata TEXT, \
+                action TEXT, \
+                vector TEXT NOT NULL \
+            );"
+    cur.execute(query)
+    db_connection.commit()
 
     cur.close()
 

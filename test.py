@@ -118,13 +118,13 @@ if __name__ == '__main__':
     config_database()
 
     # # Initialize Database
-    # initialize_database()
+    initialize_database()
 
     # Clear samples
     # clear_samples()
 
     # Update sample database with the images in /dataset directory
-    # update_sample_database_test()
+    update_sample_database_test()
 
     # # Test face recognition with "img1.jpg"
     start_time = datetime.now()
