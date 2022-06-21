@@ -19,11 +19,11 @@
    If you can find *.onnx files in ~/.insightface/models/buffalo_s/, it's okay.
    
 10. For feature extraction node, please download the model.
-   ```
-   cd ./face_recognition_v2/feature-extraction
-   mkdir models
-   ```  
-   Download the model file from [here](https://drive.google.com/file/d/1py6MWvxugYBK-4YDNNdby955nZf-hjdN/view?usp=sharing), and place it under ./feature-extraction/models/ directory.  
+    ```
+    cd ./face_recognition_v2/feature-extraction
+    mkdir models
+    ```  
+    Download the model file from [here](https://drive.google.com/file/d/1py6MWvxugYBK-4YDNNdby955nZf-hjdN/view?usp=sharing), and place it under ./feature-extraction/models/ directory.  
 
 ## Run
 ### Run Feature Detection Server
