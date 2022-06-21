@@ -17,7 +17,7 @@ def config_database():
     }
 
     payloads = {
-        'host': '10.23.5.203',
+        'host': '127.0.0.1',
         'port': '5432',
         'db_name': 'FaceRecognition',
         'username': 'postgres',
