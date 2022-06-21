@@ -10,7 +10,7 @@ dir_path = os.path.join(os.path.dirname(__file__), 'images')
 
 
 def config_database():
-    url = f'{hostname}/config_database'
+    url = f'{hostname}/config-database'
 
     headers = {
         'Content-Type': 'application/json'
@@ -34,7 +34,7 @@ def config_database():
 
 
 def initialize_database():
-    url = f'{hostname}/init_database'
+    url = f'{hostname}/init-database'
 
     headers = {
         'Content-Type': 'application/json'
@@ -114,8 +114,8 @@ def clear_samples():
 
 
 if __name__ == '__main__':
-    # # Configure Database
-    # config_database()
+    # Configure Database
+    config_database()
 
     # # Initialize Database
     # initialize_database()
@@ -128,6 +128,6 @@ if __name__ == '__main__':
 
     # # Test face recognition with "img1.jpg"
     start_time = datetime.now()
-    for i in range(100):
+    for i in range(10):
         face_recognition_test(25)
     print(datetime.now() - start_time)

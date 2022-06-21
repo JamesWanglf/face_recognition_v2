@@ -626,8 +626,12 @@ def config_database():
 
 @app.route('/init-database', methods=['GET'])
 def init_database():
+    global db_connection
+
     if db_connection is None:
-        return Response('Database is not configured yet.', status=500)
+        res = set_db_connection()
+        if not res:
+            return Response('Database is not configured yet.', status=500)
 
     cur = db_connection.cursor()
     query = f"SELECT 1 FROM information_schema.tables WHERE table_name = 'sample_face_vectors';"
