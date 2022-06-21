@@ -8,6 +8,12 @@
 6. ```pip install -r requirements_dev.txt```  
   Please pay attention to the version of onnxruntime-gpu. Please install suitable version of onnxruntime according to the versions of cuda and cudnn,you can find the table by the link: https://onnxruntime.ai/docs/execution-providers/CUDA-ExecutionProvider.html
 7. ```pip install torch==1.9.0+cu102 torchvision==0.10.0+cu102 torchaudio==0.9.0 -f https://download.pytorch.org/whl/torch_stable.html```
+8. ```git clone https://github.com/JamesWanglf/face_recognition_v2.git```
+9. ```
+   cd ./face_recognition_v2/feature-extraction
+   mkdir models
+   ```
+10. Download the model file from [here](https://drive.google.com/file/d/1py6MWvxugYBK-4YDNNdby955nZf-hjdN/view?usp=sharing), and place it under ./feature-extraction/models/ directory.  
 
 ## Run
 ### Run Feature Detection Server
