@@ -62,10 +62,10 @@ This app is responsible for configuration of database, the face detection, save 
     --header 'Content-Type: application/json' 
     --data-raw '{
         "host": <host domain/ip>,
-        "port": "5432",
-        "db_name": "FaceRecognition",
-        "username": "postgres",
-        "password": "postgres"
+        "port": <db port>,
+        "db_name": <db name>,
+        "username": <username>,
+        "password": <password>
     }'
     ```
     "port" is optional. If it's not set, 5432 will be used as default.  
