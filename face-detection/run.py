@@ -1,6 +1,5 @@
 import io
 import os
-import cv2
 import json
 import numpy as np
 import psycopg2
