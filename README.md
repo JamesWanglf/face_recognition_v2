@@ -54,6 +54,7 @@ This app is responsible for configuration of database, the face detection, save 
 ```cd ./face_detection```   
 ```gunicorn -w <number of processes> -b 0.0.0.0:6337 wsgi:app```
 ## Endpoints
+You can test these endpoints by using [test.py](https://github.com/JamesWanglf/face_recognition_v2/blob/main/test.py). You can edit this file to enable and disable test functions, and run ```python test.py``` to test.  
 * http://0.0.0.0:6337/config-database  
   This endpoint will set the configuration to access to the remote database.  
   - request
@@ -62,10 +63,10 @@ This app is responsible for configuration of database, the face detection, save 
     --header 'Content-Type: application/json' 
     --data-raw '{
         "host": <host domain/ip>,
-        "port": "5432",
-        "db_name": "FaceRecognition",
-        "username": "postgres",
-        "password": "postgres"
+        "port": <db port>,
+        "db_name": <db name>,
+        "username": <username>,
+        "password": <password>
     }'
     ```
     "port" is optional. If it's not set, 5432 will be used as default.  
