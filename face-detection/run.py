@@ -151,7 +151,7 @@ def detect_faces(img):
 
     if isinstance(img, str):
         if len(img) == 0:
-            return None
+            return None, None
         elif len(img) > 11 and img[0:11] == "data:image/":
             img = load_image(img)
         else:
@@ -161,17 +161,17 @@ def detect_faces(img):
         img = np.array(im.open(io.BytesIO(img)))
 
     else:
-        return None
+        return None, None
 
     if not isinstance(img, np.ndarray):
-        return None
+        return None, None
 
     # faces stores list of bbox and kps
     faces = model.get(img)  # [{'bbox': [], 'kps': []}, {'bbox': [], 'kps': []}, ...]
 
     # no face is detected
     if len(faces) == 0:
-        return None
+        return img, None
 
     return img, faces
 
