@@ -53,7 +53,7 @@ This app is responsible for the feature extraction from the input image data.
 This app is responsible for configuration of database, the face detection, save sample face features to database and comparation between the face feature with sample data.  
 ```cd ./face_detection```   
 ```gunicorn -w <number of processes> -b 0.0.0.0:6337 wsgi:app```
-#### endpoints
+## Endpoints
 * http://0.0.0.0:6337/config-database  
   This endpoint will set the configuration to access to the remote database.  
   - request
