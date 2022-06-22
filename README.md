@@ -1,13 +1,20 @@
 # face_recognition_v2
+## Prerequisite
+1. Install Nvidia drivers on ubuntu-18.04 machine.
+2. Install CUDA toolkit 10.2.
+3. Install cudnn8.2.1.
+4. Install PostgreSQL
+   - After install PostgreSQL, please set password for default user 'postgresql'. Otherwise, you can create a new user with password.
+   - Create database 'FaceRecognition'. You can use the name what you want.  
+   This user credential and database name will be used later.
 ## Installation
-I recommend you to use cuda 10.2 and cudnn 8.0.x.
 1. ```conda create -n face-recognition-v2 python=3.8```
 2. ```conda activate face-recognition-v2```
 3. ```pip install --upgrade pip```
 4. ```sudo-apt install libpq-dev```
 5. ```pip install -r requirements.txt```
 6. ```pip install -r requirements_dev.txt```  
-  Please pay attention to the version of onnxruntime-gpu. Please install suitable version of onnxruntime according to the versions of cuda and cudnn,you can find the table by the link: https://onnxruntime.ai/docs/execution-providers/CUDA-ExecutionProvider.html
+  Please pay attention to the version of onnxruntime-gpu. Please install suitable version of onnxruntime according to the versions of cuda and cudnn,you can find the table by the link: https://onnxruntime.ai/docs/execution-providers/CUDA-ExecutionProvider.html. If you go through this guide, you can ignore this attention.
 7. ```pip install torch==1.9.0+cu102 torchvision==0.10.0+cu102 torchaudio==0.9.0 -f https://download.pytorch.org/whl/torch_stable.html```
 8. ```git clone https://github.com/JamesWanglf/face_recognition_v2.git```
 9. For face detection node, please download the model.
@@ -27,6 +34,17 @@ I recommend you to use cuda 10.2 and cudnn 8.0.x.
     Download the model file from [here](https://drive.google.com/file/d/1py6MWvxugYBK-4YDNNdby955nZf-hjdN/view?usp=sharing), and place it under ./feature-extraction/models/ directory.  
 
 ## Run
+### Initialize the database
+This will create a table named by 'sample_face_vectors' in PostgreSQL database. The database should be created in PostgreSQL first.
+```
+cd ./face_detection
+python init_db.py -H <db address> -P <db port> -d <db name> -u <username> -p <password>
+```  
+E.g.  
+```
+python init_db.py -H 127.0.0.1 -P 5432 -d FaceRecognition -u postgres -p postgres
+```
+*Attention: While the face detction server is running on any nodes, you can not initialize the database again.*
 ### Run Feature Detection Server
 This app is responsible for the feature extraction from the input image data.  
 ```cd ./feature_extraction```  
@@ -63,21 +81,6 @@ This app is responsible for configuration of database, the face detection, save 
       "username" is missing.
       "password" is missing.
       ```
-* http://0.0.0.0:6337/init-database  
-  This endpoint will create the table named as "sample_face_vectors" on the remote database. If the table exists already, it will skip the creation of table.  
-  - request
-    ```
-    curl --location --request GET 'http://0.0.0.0:6337/init-database' 
-    ```
-  - response
-    - status_code: 200
-    ```
-    Database has been initialized successfully.
-    ```
-    - status_code: 500
-    ```
-    Database is not configured yet.
-    ```
 * http://0.0.0.0:6337/clear-samples
   This endpoint will remove all sample face vectors that are saved in database.
   - request
