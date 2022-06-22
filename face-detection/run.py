@@ -221,8 +221,6 @@ def call_feature_extractor(face_list):
                         'id': fe['id'],
                         'vector': np.array(fe['vector'])
                     })
-            
-            print('log 1.1 ----------------- ', datetime.now() - start_time)
 
         except:
             return FEATURE_EXTRACTION_SERVER_RESPONSE_PARSE_ERR, None, None
@@ -479,10 +477,8 @@ def process_image(img, min_distance):
     Face recognition
     """
     # Detect the faces from the image that is dedicated in the path or bytes
-    start_time = datetime.now()
     try:
         base_img, faces = detect_faces(img)
-        print('log 1 ------ ', datetime.now() - start_time)
     except:
         return FACE_DETECTION_ERR, None
 
@@ -526,8 +522,6 @@ def process_image(img, min_distance):
 
             face_list = []
 
-    print('log 2 ------ ', datetime.now() - start_time)
-
     if len(face_list) > 0:
         # Call the api to extract the feature from the detected faces
         res_code, success_face_features, failure_face_features = call_feature_extractor(face_list)
@@ -536,8 +530,6 @@ def process_image(img, min_distance):
             return res_code, None
 
         face_feature_vector_list += success_face_features
-
-    print('log 3 ------ ', datetime.now() - start_time)
     
     # Add bound box for each face feature vector
     vector_list = []
@@ -550,8 +542,6 @@ def process_image(img, min_distance):
 
     # Find candidates by comparing feature vectors between detected face and samples
     status, candidates = find_face(vector_list, min_distance)
-
-    print('log 4 ------ ', datetime.now() - start_time)
 
     if status != CALC_DISTANCE_OK:
         return status, None
@@ -699,7 +689,9 @@ def face_recognition():
         min_distance = float(img_data['min_distance'])
 
     # Process image
+    start_time = datetime.now()
     res_code, candidates = process_image(img_data['image'], min_distance)
+    print(f'Image process takes {datetime.now() - start_time}')
 
     if res_code != IMAGE_PROCESS_OK:
         response = {
