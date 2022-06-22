@@ -54,6 +54,7 @@ This app is responsible for configuration of database, the face detection, save 
 ```cd ./face_detection```   
 ```gunicorn -w <number of processes> -b 0.0.0.0:6337 wsgi:app```
 ## Endpoints
+You can test these endpoints by using [test.py](https://github.com/JamesWanglf/face_recognition_v2/blob/main/test.py). You can edit this file to enable and disable test functions, and run ```python test.py``` to test.  
 * http://0.0.0.0:6337/config-database  
   This endpoint will set the configuration to access to the remote database.  
   - request
