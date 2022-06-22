@@ -7,6 +7,7 @@
    - After install PostgreSQL, please set password for default user 'postgresql'. Otherwise, you can create a new user with password.
    - Create database 'FaceRecognition'. You can use the name what you want.  
    This user credential and database name will be used later.
+   - Please allow the remote access to PostgreSQL on ubuntu.
 ## Installation
 1. ```conda create -n face-recognition-v2 python=3.8```
 2. ```conda activate face-recognition-v2```
