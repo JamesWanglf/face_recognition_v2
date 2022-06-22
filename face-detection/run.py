@@ -624,36 +624,6 @@ def config_database():
         return Response('Database configuration is failed.', status=500)
 
 
-@app.route('/init-database', methods=['GET'])
-def init_database():
-    global db_connection
-
-    if db_connection is None:
-        res = set_db_connection()
-        if not res:
-            return Response('Database is not configured yet.', status=500)
-
-    cur = db_connection.cursor()
-
-    query = "DROP TABLE IF EXISTS sample_face_vectors; \
-            CREATE TABLE sample_face_vectors ( \
-                id SERIAL PRIMARY KEY, \
-                created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, \
-                modified TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, \
-                sample_id TEXT NOT NULL, \
-                name TEXT NOT NULL, \
-                metadata TEXT, \
-                action TEXT, \
-                vector TEXT NOT NULL \
-            );"
-    cur.execute(query)
-    db_connection.commit()
-
-    cur.close()
-
-    return Response('Database has been initialized successfully.', status=200)
-
-
 @app.route('/update-samples', methods=['GET', 'POST'])
 def update_samples():
     # GET request
@@ -683,7 +653,10 @@ def update_samples():
 def clear_samples():
     try:
         if db_connection is None:
-            return Response('', status=200)
+            response = {
+                'fail': 'Couldn\'t connect to database'
+            }
+            return make_response(jsonify(response), 500)
 
         cur = db_connection.cursor()
         sql_query = 'DELETE FROM sample_face_vectors;'
