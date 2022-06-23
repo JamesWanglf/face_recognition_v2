@@ -12,7 +12,7 @@
 1. ```conda create -n face-recognition-v2 python=3.8```
 2. ```conda activate face-recognition-v2```
 3. ```pip install --upgrade pip```
-4. ```sudo-apt install libpq-dev```
+4. ```sudo apt-get install libpq-dev```
 5. ```pip install -r requirements.txt```
 6. ```pip install -r requirements_dev.txt```  
   Please pay attention to the version of onnxruntime-gpu. Please install suitable version of onnxruntime according to the versions of cuda and cudnn,you can find the table by the link: https://onnxruntime.ai/docs/execution-providers/CUDA-ExecutionProvider.html. If you go through this guide, you can ignore this attention.
