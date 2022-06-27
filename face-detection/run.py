@@ -82,7 +82,7 @@ def load_model():
 
     # use FaceAnalysis
     model = FaceAnalysis(name='buffalo_s', providers=['CUDAExecutionProvider', 'CPUExecutionProvider'], allowed_modules=['detection'])
-    model.prepare(ctx_id=0, det_size=(640, 640))
+    model.prepare(ctx_id=0, det_size=(160, 160))
 
 
 def get_env(key):
@@ -170,6 +170,7 @@ def detect_faces(img):
 
     # no face is detected
     if len(faces) == 0:
+        print("No face detected")
         return img, None
 
     return img, faces
