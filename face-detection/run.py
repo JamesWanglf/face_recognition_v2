@@ -407,6 +407,68 @@ def get_sample_database():
     return sample_vectors
 
 
+def register_unknown_face(face_vector):
+    """
+    This function will register a face_vector as an unknown person's face into database.
+    """
+    try:
+        # Get database connection
+        global db_connection
+
+        if db_connection is None:
+            res = set_db_connection()
+            if not res:
+                return DB_CONNECTION_ERR
+
+        cur = db_connection.cursor()
+
+        # Prepare fields
+        ## Check the already registered unknown faces
+        sql_query = f'SELECT sample_id FROM sample_face_vectors WHERE sample_id LIKE \'unknown_person_%\';'
+        cur.execute(sql_query)
+        unknown_faces = cur.fetchall()
+
+        ## Calculate the suffix_id for unknown face
+        suffix_id = 0
+        for uf in unknown_faces:
+            sample_id = uf[0]
+            try:
+                last_suffix_id = int(sample_id.split('unknown_person_')[1])
+                if last_suffix_id >= suffix_id:
+                    suffix_id = last_suffix_id
+            except Exception as e:
+                print(str(e))
+                continue
+        suffix_id += 1
+
+        sample_id = f'unknown_person_{suffix_id}'
+        name = sample_id
+        metadata = sample_id
+        action = 'embedlink'
+
+        # Save new vector
+        sql_query = f'INSERT INTO sample_face_vectors (sample_id, name, metadata, action, vector) ' \
+            f'VALUES (\'{sample_id}\', \'{name}\', \'{metadata}\', \'{action}\', \'{json.dumps(face_vector.tolist())}\');'
+
+        cur.execute(sql_query)
+
+        db_connection.commit()
+        cur.close()
+
+        sample_face = {
+            'id': sample_id,
+            'name': name,
+            'metadata': metadata,
+            'action': action,
+            'vector': face_vector
+        }
+
+        return True, sample_face
+
+    except Exception as e:
+        return False, None
+
+
 def calculate_simulation(feat1, feat2):
     from numpy.linalg import norm
     feat1 = feat1.ravel()
@@ -424,9 +486,6 @@ def find_face(face_feature_vectors, min_simulation):
 
     if sample_vectors is None:
         return GET_SAMPLE_VECTOR_ERR, None
-
-    if len(sample_vectors) == 0:
-        return NO_SAMPLE_VECTOR_ERR, None
 
     candidates = []
     for vector_data in face_feature_vectors:
@@ -454,11 +513,21 @@ def find_face(face_feature_vectors, min_simulation):
                     closest_metadata = sample['metadata']
 
             except Exception as e:
-                print(e)
                 pass
         
-        # If not find fit sample, skip
+        # If not find fit sample, register this face as unkown person in database
         if closest_id == '':
+            res, face_obj = register_unknown_face(face_feature_vector)
+            if res:
+                sample_vectors.append(face_obj)
+
+                # Add candidate for this face
+                candidates.append({
+                    'id': face_obj['id'],
+                    'name': face_obj['name'],
+                    'metadata': face_obj['metadata'],
+                    'bbox': vector_data['bbox']
+                })
             continue
 
         # Add candidate for this face
